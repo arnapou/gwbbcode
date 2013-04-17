@@ -9,7 +9,7 @@ Introduction
 ============
 This is Javascript stuff for Guildwars community forums/websites.
 
-It add the ability to see nice Guildwars builds on your website, with information on skill when you move the mouse on skills.
+It adds the ability to see nice Guildwars builds on your website, with information about the skill when you move the mouse on it.
 
 ![screen](/doc/screen.jpg)
 
