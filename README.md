@@ -1,7 +1,7 @@
 GWBBCode Javascript
 ===================
 
-Originaly created in september 2012.
+Originaly created in september 2011.
 
 Simple documentation available at [this link](http://gwbbcode.arnapou.net)
 
