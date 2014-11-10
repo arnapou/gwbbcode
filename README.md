@@ -3,7 +3,7 @@ GWBBCode Javascript
 
 Originaly created in september 2011.
 
-Simple documentation available at [this link](http://gwbbcode.arnapou.net)
+Simple documentation available at [this link](http://gwbbcode.arnapou.net/)
 
 Introduction
 ============
@@ -11,7 +11,7 @@ This is Javascript stuff for Guildwars community forums/websites.
 
 It adds the ability to see nice Guildwars builds on your website, with information about the skill when you move the mouse on it.
 
-![screen](/doc/screen.jpg)
+![screen](public/screen.jpg)
 
 Credits
 =======
