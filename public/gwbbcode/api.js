@@ -9,19 +9,22 @@
  */
 var GWConfig = {
 	css: {
-		theme: 'http://gwbbcode.arnapou.net/gwbbcode/themes/arnapou/theme.css',
-		skills: 'http://gwbbcode.arnapou.net/gwbbcode/skills/skills.css'
+		theme: 'http://bbcode.thedeep.sc/themes/arnapou/theme.css',
+		skills: 'http://bbcode.thedeep.sc/skills/skills.css'
 	},
 	js: {
 		data: {
-			fr: 'http://gwbbcode.arnapou.net/gwbbcode/data/fr.js',
-			en: 'http://gwbbcode.arnapou.net/gwbbcode/data/en.js'
+			en: 'http://bbcode.thedeep.sc/data/en.js'
 		},
 		jQuery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'
 	},
 	db: {
-		attributes: {},
-		professions: {},
+		attributes: {"axe":"18","ham":"19","swo":"20","tac":"21","str":"17","bea":"22","mar":"25","wil":"24","exp":"23","hea":"13","pro":"15","smi":"14","div":"16","blo":"4","cur":"7","dea":"5","sou":"6","dom":"2","ill":"1","ins":"3","fas":"0","air":"8","ear":"9","fir":"10","wat":"11","ene":"12","dag":"29","dead":"30","sha":"31","cri":"35","cha":"34","com":"32","res":"33","spa":"36","comma":"38","mot":"39","spe":"37","lea":"40","earthp":"43","scy":"41","win":"42","mys":"44","lux":"-1","kur":"-1","asu":"-1","del":"-1","ebo":"-1","lig":"-1","nor":"-1","sun":"-1"},
+		long_attributes: {0: "Fast Casting", 1: "Illusion Magic", 2: "Domination Magic", 3: "Inspiration Magic", 4: "Blood Magic", 5: "Death Magic", 6: "Soul Reaping", 7: "Curses", 8: "Air Magic", 9: "Earth Magic", 10: "Fire Magic", 11: "Water Magic", 12: "Energy Storage", 13: "Healing Prayers", 14: "Divine Favor", 15: "Protection Prayers", 17: "Strength", 18: "Axe Mastery", 19: "Hammer Mastery", 20: "Sword Mastery", 21: "Tactics", 22: "Beast Mastery", 23: "Expertise", 24: "Wilderness Survival", 25: "Marksmanship", 29: "Dagger Mastery", 30: "Deadly Arts", 31: "Shadow Arts", 32: "Communing", 33: "Restoration Magic", 34: "Channeling Magic", 35: "Critical Strikes", 36: "Spawning Power", 37: "Spear Mastery", 38: "Command", 39: "Motivation", 40: "Leadership", 41: "Scythe Mastery", 42: "Wind Prayers", 43: "Earth Prayers", 44: "Mysticism",  214: "Norn rank", 215: "Vanguard rank", 216: "Deldrimor rank", 217: "Asura rank", 238: "Sunspear rank", 249: "Allegiance rank"},
+		professions: {"W":"1","R":"2","Mo":"3","N":"4","Me":"5","E":"6","A":"7","Rt":"8","P":"9","D":"10"},
+		professionnames: {"W":"Warrior","R":"Ranger","Mo":"Monk","N":"Necromancer","Me":"Mesmer","E":"Elementalist","A":"Assassin","Rt":"Ritualist","P":"Paragon","D":"Dervish"},
+		professionkeys: {"W":"W","R":"R","Mo":"Mo","N":"N","Me":"Me","E":"E","A":"A","Rt":"Rt","P":"P","D":"D"},
+		campaigns: ["Core", "Prophecies", "Factions", "Nightfall", "Eye of the North"],
 		skills: {},
 		search: {}
 	},
@@ -47,7 +50,7 @@ function GWBuild() {
 	var _self = this;
 	var _base64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	var _professions, _attributes, _attributeValues, _skills;
-	
+
 	function binpadright(s, n) {
 		while(s.length < n) s += '0';
 		return s;
@@ -94,7 +97,7 @@ function GWBuild() {
 		}
 		return bin;
 	}
-	
+
 	function sanitizeprof(prof) {
 		if(prof.length == 1) {
 			prof = prof.toUpperCase();
@@ -108,7 +111,7 @@ function GWBuild() {
 		attr = (attr+'').toLowerCase();
 		return attr;
 	}
-	
+
 	this.setProfession1 = function(prof) {
 		prof = sanitizeprof(prof);
 		if(GWConfig.db.professions[prof]) {
@@ -303,7 +306,7 @@ function GWSkill() {
 
 	this.attrlevel = null;
 	this.cls = null;
-	
+
 	this.id = null;
 	this.profession = null;
 	this.elite = null;
@@ -315,7 +318,7 @@ function GWSkill() {
 	this.attribute = null;
 	this.attr = null;
 	this.caracs = null;
-	
+
 	this.setId = function(id) {
 		var data = GWConfig.db.skills[id];
 		if(data){
@@ -325,7 +328,7 @@ function GWSkill() {
 				if(data.z.x) caracs.exhaustion = data.z.x;
 				if(data.z.g) caracs.eregen = data.z.g;
 				if(data.z.e) caracs.energy = data.z.e;
-				if(data.z.a) caracs.adrenaline = data.z.a;
+				if(data.z.a) caracs.adrenaline = Math.ceil(data.z.a / 25);
 				if(data.z.c) caracs.casting = data.z.c;
 				if(data.z.r) caracs.recharge = data.z.r;
 			}
@@ -357,14 +360,27 @@ function GWSkill() {
 		tpl = tpl.replace('[elite]', _self.elite ? 'elite' : 'noelite');
 		return tpl;
 	};
+	this.getSkillType = function(skill_id) {
+		desc = GWConfig.db.skills[skill_id].d;
+
+		skill_type = desc.match(/^([a-z]+[ a-z]*)\. /i)[1]
+
+		return skill_type;
+	};
+	this.getCampaign = function(campaign) {
+		return GWConfig.db.campaigns[campaign];
+	}
+	this.getLongAttrById = function(attr_id) {
+		return GWConfig.db.long_attributes[attr_id];
+	}
 	this.getDescription = function(){
 		var text = _self.description, m;
 		text = text.replace(/([0-9]+\.\.\.?[0-9]+(?:\.\.\.?[0-9]+)?)/gi, '<b>$1</b>');
 		if(_self.attrlevel){
 			while(m = text.match(/([0-9]+)\.\.\.?([0-9]+)(?:\.\.\.?[0-9]+)?/i)) {
 				var v0 = parseInt(m[1]);
-				var v12 = parseInt(m[2]);
-				var v = Math.floor((v12-v0)/12*_self.attrlevel + v0);
+				var v15 = parseInt(m[2]);
+				var v = Math.floor((v15-v0)/15*_self.attrlevel + v0);
 				text = text.replace(m[0], v);
 			}
 		}
@@ -380,13 +396,17 @@ function GWSkill() {
 		return '<ul>'+caracs+'</ul>';
 	};
 	this.getHtmlDetail = function() {
+		skill_type = this.getSkillType(_self.id);
+		chapter = this.getCampaign(_self.chapter);
+		long_attr = this.getLongAttrById(_self.attribute);
+
 		var tpl = GWConfig.templates.detail;
 		tpl = tpl.replace('[prof]', _self.profession);
 		tpl = tpl.replace('[elite]', _self.elite ? 'elite' : 'noelite');
 		tpl = tpl.replace('[name]', _self.name);
-		tpl = tpl.replace('[type]', _self.type);
-		tpl = tpl.replace('[attr]', (_self.attribute || '')+(_self.attrlevel ? ' <b>'+_self.attrlevel+'</b>': ''));
-		tpl = tpl.replace('[chap]', _self.chapter);
+		tpl = tpl.replace('[type]', skill_type);
+		tpl = tpl.replace('[attr]', (long_attr || '')+(_self.attrlevel ? ' <b>'+_self.attrlevel+'</b>': ''));
+		tpl = tpl.replace('[chap]', chapter);
 		tpl = tpl.replace('[text]', _self.getDescription());
 		tpl = tpl.replace('[caracs]', _self.getCaracs());
 		tpl = tpl.replace('[skill]', _self.getHtml());
@@ -419,7 +439,7 @@ function GWOnLoad(callback){
 	if(!GWConfig.loaded) {
 		GWConfig.loaded = true;
 		var addCss = function (href) {
-			var headID = document.getElementsByTagName("head")[0] || document.documentElement;         
+			var headID = document.getElementsByTagName("head")[0] || document.documentElement;
 			var cssNode = document.createElement('link');
 			cssNode.type = 'text/css';
 			cssNode.rel = 'stylesheet';
@@ -428,7 +448,7 @@ function GWOnLoad(callback){
 			headID.appendChild(cssNode);
 		};
 		var addJs = function (href, onload) {
-			var headID = document.getElementsByTagName("head")[0] || document.documentElement;         
+			var headID = document.getElementsByTagName("head")[0] || document.documentElement;
 			var newScript = document.createElement('script');
 			newScript.type = 'text/javascript';
 			newScript.src = href;
@@ -515,7 +535,7 @@ function GWBBCodeParse(jQuerySelector) {
 				m0 = m[0];
 				m1 = m[1];
 				m2 = m[2];
-				if(m1.match(/prof/i)) {					
+				if(m1.match(/prof/i)) {
 					if(m = m2.match(/^([a-z]+)\/([a-z\?]*)$/i)) {
 						build.setProfession1(m[1]);
 						build.setProfession2(m[2]);
@@ -651,7 +671,7 @@ function GWSanitizeString(s) {
 	r = r.replace(/ç/g,'c');
 	r = r.replace(/[èéêë]/g,'e');
 	r = r.replace(/[ìíîï]/g,'i');
-	r = r.replace(/ñ/g,'n');                
+	r = r.replace(/ñ/g,'n');
 	r = r.replace(/[òóôõö]/g,'o');
 	r = r.replace(/œ/g,'oe');
 	r = r.replace(/[ùúûü]/g,'u');
