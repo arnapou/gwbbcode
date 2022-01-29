@@ -3,7 +3,6 @@ GWBBCode Javascript
 
 Originaly created in september 2011.
 
-Simple documentation available at [gwbbcode.arnapou.net](https://gwbbcode.arnapou.net/)
 
 Introduction
 ============
