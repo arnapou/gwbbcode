@@ -1,6 +1,6 @@
 /**
  * @author Arnaud Buathier
- * @link http://gwbbcode.arnapou.net/
+ * @link https://gwbbcode.arnapou.net/
  * @version v1.0
  */
 
@@ -9,15 +9,15 @@
  */
 var GWConfig = {
 	css: {
-		theme: 'http://gwbbcode.arnapou.net/gwbbcode/themes/arnapou/theme.css',
-		skills: 'http://gwbbcode.arnapou.net/gwbbcode/skills/skills.css'
+		theme: 'https://gwbbcode.arnapou.net/gwbbcode/themes/arnapou/theme.css',
+		skills: 'https://gwbbcode.arnapou.net/gwbbcode/skills/skills.css'
 	},
 	js: {
 		data: {
-			fr: 'http://gwbbcode.arnapou.net/gwbbcode/data/fr.js',
-			en: 'http://gwbbcode.arnapou.net/gwbbcode/data/en.js'
+			fr: 'https://gwbbcode.arnapou.net/gwbbcode/data/fr.js',
+			en: 'https://gwbbcode.arnapou.net/gwbbcode/data/en.js'
 		},
-		jQuery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'
+		jQuery: 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'
 	},
 	db: {
 		attributes: {},
